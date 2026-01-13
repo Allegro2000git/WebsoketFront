@@ -1,5 +1,6 @@
-import {useState, type ChangeEvent, type KeyboardEvent} from "react";
+import {useState, type ChangeEvent, type KeyboardEvent, useEffect} from "react";
 import s from "./Header.module.css"
+import {socket} from "../../../../app/App";
 
 type Props = {
     userName: string
@@ -10,6 +11,12 @@ export const Header = ({userName, setChatUserName}: Props) => {
     const [name, setName] = useState<string>("")
     const [error, setError] = useState<string | null>(null)
     const [isEditing, setIsEditing] = useState(false)
+
+    useEffect(() => {
+        if (isEditing) {
+            setName(userName)
+        }
+    }, [isEditing, userName])
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>)=> {
         if (error) {
@@ -26,11 +33,17 @@ export const Header = ({userName, setChatUserName}: Props) => {
             return
         }
 
+        if (trimmedName.length > 15) {
+            setError('Max length is 15')
+            return
+        }
+
         setIsEditing(false)
 
 
         localStorage.setItem("userName", trimmedName)
         setChatUserName(trimmedName)
+        socket.emit("client-name-sent", trimmedName)
         setName('')
         setError(null)
 
