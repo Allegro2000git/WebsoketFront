@@ -1,0 +1,40 @@
+.header {
+    flex-shrink: 0;
+    background-color: #9494ff;
+    font-size: 20px;
+    z-index: 10;
+    color: white;
+    padding: 5px 0;
+}
+
+.container {
+    margin: 20px;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+
+    span {
+        color: #ffa900
+    }
+}
+
+.inputWrapper {
+    position: relative;
+}
+
+.errorText {
+    font-size: 15px;
+    color: red;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 2px;
+}
