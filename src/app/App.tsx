@@ -41,7 +41,7 @@ function App() {
                 userName={chatUserName}
                 setChatUserName={setChatUserName}
             />
-            <MessagesList message={message} setMessage={setMessage} messages={messages}/>
+            <MessagesList message={message} setMessage={setMessage} messages={messages} isAutoScrollActive={isAutoScrollActive} setIsAutoScrollActive={setIsAutoScrollActive}/>
         </div>
     );
 }
