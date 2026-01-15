@@ -30,6 +30,16 @@
     position: relative;
 }
 
+.editIcon {
+    position: relative;
+    width: 14px;
+    height: auto;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+    cursor: pointer;
+}
+
 .errorText {
     font-size: 15px;
     color: red;

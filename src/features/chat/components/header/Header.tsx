@@ -1,6 +1,9 @@
-import {useState, type ChangeEvent, type KeyboardEvent, useEffect} from "react";
+import {useState, type ChangeEvent, type KeyboardEvent} from "react";
 import s from "./Header.module.css"
-import {socket} from "../../../../app/App";
+import {ServerStatus} from "../serverStatus/serverStatus";
+import {useAppDispatch} from "../../../../common/hooks/useAppDispatch";
+import {sendClientName} from "../../model/chatSlice";
+import pen from "../../../../assets/pen.svg";
 
 type Props = {
     userName: string
@@ -12,11 +15,7 @@ export const Header = ({userName, setChatUserName}: Props) => {
     const [error, setError] = useState<string | null>(null)
     const [isEditing, setIsEditing] = useState(false)
 
-    useEffect(() => {
-        if (isEditing) {
-            setName(userName)
-        }
-    }, [isEditing, userName])
+    const dispatch = useAppDispatch()
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>)=> {
         if (error) {
@@ -40,13 +39,11 @@ export const Header = ({userName, setChatUserName}: Props) => {
 
         setIsEditing(false)
 
-
+        dispatch(sendClientName(trimmedName))
         localStorage.setItem("userName", trimmedName)
         setChatUserName(trimmedName)
-        socket.emit("client-name-sent", trimmedName)
         setName('')
         setError(null)
-
     }
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>)=> {
@@ -75,10 +72,11 @@ export const Header = ({userName, setChatUserName}: Props) => {
                             ) : (
                             <span onClick={handleSpanOnClick}>
                                 {userName}
+                                ...<img className={s.editIcon} src={pen} alt='Edit icon' />
                             </span>
                         )}
                     </div>
-                    <>Status Server</>
+                    <ServerStatus/>
                 </div>
             </div>
         </header>
