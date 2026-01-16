@@ -1,0 +1,107 @@
+.messageItem {
+    padding: 0.5rem;
+    word-wrap: break-word;
+    background-color: #2d2d3a;
+    transition: all 0.3s ease;
+    position: relative;
+    margin-top: 0.25rem;
+    width: fit-content;
+    max-width: 60%;
+    animation: fadeIn 0.3s ease-out;
+    line-height: 1.2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    white-space: pre-wrap;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.messageItem b {
+    color: #646cff;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.9em;
+}
+
+.messageItem.own {
+    align-self: flex-end;
+    background-color: #3a3a4a;
+    border-radius: 0.9375rem 0.9375rem 0 0.9375rem;
+    margin-left: auto;
+    border-left: 2px solid #646cff;
+    margin-right: 8px;
+    color: #646cff;;
+}
+
+.messageItem.other {
+    align-self: flex-start;
+    background-color: #2d3045;
+    border-radius: 1rem 1rem 1rem 0;
+    margin-right: auto;
+    border-right: 3px solid #4a4f73;
+    margin-left: 10px;
+    color: rgb(255, 255, 255);
+}
+
+.messageItem.own .svgAppendix path {
+    fill: #3a3a4a;
+}
+
+.messageItem.other .svgAppendix path {
+    fill: #2d3045;
+}
+
+.svgAppendix {
+    position: absolute;
+    bottom: -0.04rem;
+    overflow: hidden;
+    width: 0.5rem;
+    height: 1.1rem;
+}
+
+.ownAppendix {
+    right: -8px;
+    transform: scaleX(-1);
+}
+
+.otherAppendix {
+    left: -8px;
+}
+
+.messageTextWrapper {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+}
+
+.singleLine .messageTime {
+    display: inline;
+    margin-left: 8px;
+    margin-top: 0;
+}
+
+.messageContent {
+    display: inline;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.messageTime {
+    font-size: .75rem;
+    color: #888;
+    margin-left: 8px;
+    margin-top: 4px;
+    text-align: right;
+    white-space: nowrap;
+    display: block;
+}

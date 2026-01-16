@@ -1,4 +1,3 @@
-
 import s from './ServerStatus.module.css'
 import {useAppSelector} from "../../../../common/hooks/useAppSelector";
 import {selectConnectionStatus, selectReadyToSendMessagesStatus, selectUsersCount} from "../../model/chatSlice";
@@ -9,7 +8,7 @@ export const ServerStatus = () => {
     const usersCount = useAppSelector(selectUsersCount)
 
     const statusMap = {
-        online: { color: '#4caf50', text: 'Live' },
+        online: { color: '#25da2c', text: 'Live' },
         offline: { color: '#f44336', text: 'Offline' },
         connecting: { color: '#ff9800', text: 'Connecting...' },
     }
@@ -31,7 +30,7 @@ export const ServerStatus = () => {
             {statusKey === 'online' && <span className={s.usersCount}>({usersCount} online)</span>}
             <span className={s.status}>
         <span
-            className={`${s.content} ${statusKey === 'offline' ? s.pulsing : ''}`}
+            className={`${s.content} ${statusKey === 'connecting' ? s.pulsing : ''}`}
             style={{ backgroundColor: color }}
         />
         <span>{text}</span>

@@ -14,7 +14,8 @@ export type ServerStatusType = 'online' | 'offline' | 'connecting'
 
 export type ChatState = {
     messages: Message[]
-    connectionStatus: ServerStatusType
+    connectionStatus: ServerStatusType,
+    usersTyping: User[],
     readyToSendMessagesStatus: boolean,
     usersCount: number,
 }

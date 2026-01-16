@@ -2,12 +2,9 @@ import {useState} from "react";
 import s from "./App.module.css";
 import {Header} from "../features/chat/components/header/Header";
 import {MessageList} from "../features/chat/components/messagesList/MessageList";
-import {io} from "socket.io-client";
 import {useSendClientName} from "../common/hooks/useSendClientName";
 import {useChatConnection} from "../common/hooks/useChatConnection";
 import {MessageInput} from "../features/chat/components/messageInput/MessageInput";
-
-export const socket = io("http://localhost:3009")
 
 function App() {
     const [chatUserName, setChatUserName] = useState<string>(() => localStorage.getItem('userName') || 'anonymous')

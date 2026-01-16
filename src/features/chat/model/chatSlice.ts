@@ -1,7 +1,6 @@
 import {createAppSlice} from "../../../common/utils/CreateAppSlice";
-import type {ChatState, Message, ServerStatusType} from "../../../common/types/types";
+import type {ChatState, Message, ServerStatusType, User} from "../../../common/types/types";
 import {chatApi} from "../api/api";
-
 
 export const chatSlice = createAppSlice({
     name: 'chatSlice',
@@ -9,6 +8,7 @@ export const chatSlice = createAppSlice({
         messages: [],
         connectionStatus: "offline" as ServerStatusType,
         readyToSendMessagesStatus: false,
+        usersTyping: [],
         usersCount: 0,
     } as ChatState,
     selectors: {
@@ -16,6 +16,7 @@ export const chatSlice = createAppSlice({
         selectConnectionStatus: (s) => s.connectionStatus,
         selectReadyToSendMessagesStatus: (s) => s.readyToSendMessagesStatus,
         selectUsersCount: (s) => s.usersCount,
+        selectTypingUsers: (s) => s.usersTyping,
     },
     reducers: (create) => ({
         messagesReceived: create.reducer<Message[]>((state, action) => {
@@ -25,6 +26,23 @@ export const chatSlice = createAppSlice({
             const newMessage = action.payload
             if (state.messages.some(m => m.id !== newMessage.id)) {
               state.messages.push(newMessage)
+                state.usersTyping = state.usersTyping.filter((u) => u.id !== newMessage.user.id)
+            }
+        }),
+        typingUserAdded: create.reducer<User>((state, action) => {
+            const user = action.payload
+            const index = state.usersTyping.findIndex((u) => u.id === user.id)
+            if (index !== -1) {
+                state.usersTyping[index] = user
+            } else {
+                state.usersTyping.push(user)
+            }
+        }),
+        typingUserRemoved: create.reducer<User>((state, action) => {
+            const user = action.payload
+            const index = state.usersTyping.findIndex((u) => u.id === user.id)
+            if (index !== -1) {
+                state.usersTyping.splice(index, 1)
             }
         }),
         setConnectionStatus: create.reducer<ServerStatusType>((state, action) => {
@@ -52,6 +70,8 @@ export const chatSlice = createAppSlice({
                 },
                 (newMessage: Message) => dispatch(newMessageReceived(newMessage)),
                 (count: number) => dispatch(usersCountUpdated(count)),
+                (user: User) => dispatch(typingUserAdded(user)),
+                (user: User) => dispatch(typingUserRemoved(user)),
             )
 
             chatApi.onConnect(() => {
@@ -70,6 +90,13 @@ export const chatSlice = createAppSlice({
         sendClientMessage: create.asyncThunk(async (message: string) => {
             chatApi.sendMessage(message)
         }),
+        typeMessage: create.asyncThunk(async () => {
+            chatApi.typeMessage()
+        }),
+        stopTypingMessage: create.asyncThunk(async () => {
+            chatApi.stopTyping()
+        }),
+
         destroyConnection: create.asyncThunk(async (_, { dispatch }) => {
             chatApi.destroyConnection()
             dispatch(setConnectionStatus('offline'))
@@ -78,6 +105,6 @@ export const chatSlice = createAppSlice({
     }),
 });
 
-export const { messagesReceived, newMessageReceived, sendClientMessage, sendClientName, createConnection, destroyConnection, setConnectionStatus, setReadyToSendMessages, usersCountUpdated } = chatSlice.actions
+export const { messagesReceived, newMessageReceived, sendClientMessage, sendClientName, typeMessage, typingUserAdded, typingUserRemoved, stopTypingMessage, createConnection, destroyConnection, setConnectionStatus, setReadyToSendMessages, usersCountUpdated } = chatSlice.actions
 export const {selectMessages, selectConnectionStatus, selectReadyToSendMessagesStatus, selectUsersCount } = chatSlice.selectors
 export const chatReducer = chatSlice.reducer
