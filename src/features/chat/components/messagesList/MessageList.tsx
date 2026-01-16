@@ -3,6 +3,7 @@ import {useAppSelector} from "../../../../common/hooks/useAppSelector";
 import {selectMessages} from "../../model/chatSlice";
 import s from "./MessageList.module.css"
 import {MessageItem} from "./messageItem/MessageItem";
+import {TypingUsersCase} from "../typingUsersCase/TypingUsersCase";
 
 type Props = {
     userName: string,
@@ -48,6 +49,7 @@ export const MessageList = memo(({ userName, isAutoScrollActive, setIsAutoScroll
                 {messages.map((m) => (
                     <MessageItem key={m.id} currentName={userName} message={m} />
                 ))}
+                <TypingUsersCase />
                 <div ref={messagesBlock}></div>
             </div>
         </div>

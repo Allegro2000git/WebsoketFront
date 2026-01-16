@@ -106,5 +106,5 @@ export const chatSlice = createAppSlice({
 });
 
 export const { messagesReceived, newMessageReceived, sendClientMessage, sendClientName, typeMessage, typingUserAdded, typingUserRemoved, stopTypingMessage, createConnection, destroyConnection, setConnectionStatus, setReadyToSendMessages, usersCountUpdated } = chatSlice.actions
-export const {selectMessages, selectConnectionStatus, selectReadyToSendMessagesStatus, selectUsersCount } = chatSlice.selectors
+export const {selectMessages, selectConnectionStatus, selectReadyToSendMessagesStatus, selectUsersCount, selectTypingUsers } = chatSlice.selectors
 export const chatReducer = chatSlice.reducer
